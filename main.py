@@ -1,24 +1,29 @@
 import os
 import requests
 
-def iniciar_proceso_automatizado():
-    print("--- FÁBRICA NEUROCAPITAL: FASE DE PRODUCCIÓN ---")
+def fabrica_neurocapital_activa():
+    print("--- FÁBRICA NEUROCAPITAL: PRODUCCIÓN INICIADA ---")
     
-    # Llaves de Capital
-    pexels_key = os.getenv('PEXELS_API_KEY')
-    make_url = os.getenv('MAKE_WEBHOOK_URL')
-    
-    if not pexels_key:
-        print("ESTADO: Faltan llaves en GitHub Secrets")
+    # 1. Validación de Conexión con Pexels
+    api_key = os.getenv('PEXELS_API_KEY')
+    if not api_key:
+        print("ERROR: Inyecte su PEXELS_API_KEY en los Secrets de GitHub.")
         return
 
-    print("CONEXIÓN PEXELS: OK")
+    # 2. Comando de Búsqueda de Contenido
+    # El sistema buscará metraje de 'lujo' y 'motivación'
+    query = "luxury motivation"
+    url = f"https://api.pexels.com/videos/search?query={query}&per_page=1"
+    headers = {"Authorization": api_key}
     
-    # Simulación de renderizado real para YouTube Shorts
-    # Aquí el tiempo de ejecución pasará de 38s a ser mucho mayor
-    print("BUSCANDO CLIPS DE ALTA CONVERSIÓN...")
-    print("PROCESANDO VIDEO 1 DE 10...")
-    print("OPERACIÓN EXITOSA")
+    response = requests.get(url, headers=headers)
+    
+    if response.status_code == 200:
+        data = response.json()
+        print(f"ÉXITO: Se ha localizado material para el Video #1.")
+        print(f"URL de Producción: {data['videos'][0]['url']}")
+    else:
+        print(f"FALLO DE CONEXIÓN: Código {response.status_code}")
 
-# EJECUCIÓN DIRECTA (Sin if _name_ para evitar su error anterior)
-iniciar_proceso_automatizado()
+# Ejecución Directa Segura
+fabrica_neurocapital_activa()
