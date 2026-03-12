@@ -1,8 +1,8 @@
 name: Produccion Automatizada 10x
 on:
   schedule:
-    - cron: '0 */2 * * *' # Se ejecuta cada 2 horas (Aprox 10-12 videos al día)
-  workflow_dispatch: # Esto nos permite probarlo manualmente ahora mismo
+    - cron: '0 */2 * * *'
+  workflow_dispatch:
 
 jobs:
   build:
@@ -16,13 +16,12 @@ jobs:
         with:
           python-version: '3.9'
 
-      - name: Instalar dependencias profesionales
+      - name: Instalar Motor de Video Profesional
         run: |
-          pip install requests moviepy
-          # Instalamos ImageMagick para que MoviePy pueda procesar textos si es necesario
-          sudo apt-get install imagemagick
+          pip install requests moviepy imageio-ffmpeg
+          python -c "import imageio; imageio.plugins.ffmpeg.download()"
 
-      - name: Ejecutar Fabrica de Videos
+      - name: Ejecutar Fabrica
         env:
           PEXELS_API_KEY: ${{ secrets.PEXELS_API_KEY }}
           MAKE_WEBHOOK_URL: ${{ secrets.MAKE_WEBHOOK_URL }}
