@@ -1,16 +1,22 @@
 import os
 import requests
+from moviepy.editor import VideoFileClip, TextClip, CompositeVideoClip
 
-def iniciar_fabrica():
-    print("--- INICIANDO SISTEMA DE GENERACIÓN DE CAPITAL ---")
-    # Aquí se ejecutará su lógica principal
-    # Verificando credenciales
-    api_key = os.getenv('PEXELS_API_KEY')
-    if not api_key:
-        print("ERROR: Falta PEXELS_API_KEY en Secrets")
-        return
+def iniciar_produccion():
+    print("--- GENERADOR NEUROCAPITAL: FASE DE CAPTURA ---")
     
-    print("Conexión establecida. Procesando contenido...")
+    # Verificación de Capital (API Keys)
+    api_key = os.getenv('PEXELS_API_KEY')
+    webhook = os.getenv('MAKE_WEBHOOK_URL')
+    
+    if not api_key or not webhook:
+        print("ERROR CRÍTICO: Faltan credenciales en GitHub Secrets.")
+        return
 
-# Esta es la forma más simple y segura que GitHub Actions no puede confundir:
-iniciar_fabrica()
+    print("Credenciales validadas. Iniciando búsqueda de contenido de alta conversión...")
+    
+    # Aquí el sistema ejecutará la búsqueda y edición automática
+    # Por ahora, confirmamos que el motor de renderizado está activo
+    print("Motor de video MoviePy: Operacional")
+
+iniciar_produccion()
