@@ -16,8 +16,10 @@ jobs:
         with:
           python-version: '3.9'
 
-      - name: Instalar Motor de Video Profesional
+      - name: Instalar Dependencias del Sistema y Video
         run: |
+          sudo apt-get update
+          sudo apt-get install -y imagemagick
           pip install requests moviepy imageio-ffmpeg
           python -c "import imageio; imageio.plugins.ffmpeg.download()"
 
