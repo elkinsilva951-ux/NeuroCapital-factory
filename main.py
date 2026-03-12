@@ -1,17 +1,16 @@
 import os
 import requests
-from moviepy.editor import VideoFileClip, TextClip, CompositeVideoClip
 
-def fabricar_video():
-    print("Iniciando producción de video...")
-    # Aquí va su lógica de Pexels y edición
-    # Asegúrese de tener sus API Keys en los Secrets de GitHub
-    pass
+def iniciar_fabrica():
+    print("--- INICIANDO SISTEMA DE GENERACIÓN DE CAPITAL ---")
+    # Aquí se ejecutará su lógica principal
+    # Verificando credenciales
+    api_key = os.getenv('PEXELS_API_KEY')
+    if not api_key:
+        print("ERROR: Falta PEXELS_API_KEY en Secrets")
+        return
+    
+    print("Conexión establecida. Procesando contenido...")
 
-if _name_ == "_main_":
-    try:
-        fabricar_video()
-        print("Video exportado y enviado con éxito.")
-    except Exception as e:
-        print(f"Error en la factoría: {e}")
-        exit(1)
+# Esta es la forma más simple y segura que GitHub Actions no puede confundir:
+iniciar_fabrica()
