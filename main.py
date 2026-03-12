@@ -1,29 +1,27 @@
 import os
 import requests
 
-def fabrica_neurocapital_activa():
-    print("--- FÁBRICA NEUROCAPITAL: PRODUCCIÓN INICIADA ---")
+def ejecutar_produccion_real():
+    print("--- INICIANDO RENDERIZADO DE VIDEOS NEUROCAPITAL ---")
     
-    # 1. Validación de Conexión con Pexels
+    # 1. Validación de Capital (API KEY)
     api_key = os.getenv('PEXELS_API_KEY')
     if not api_key:
-        print("ERROR: Inyecte su PEXELS_API_KEY en los Secrets de GitHub.")
+        print("ERROR: Inyecte PEXELS_API_KEY en Secrets")
         return
 
-    # 2. Comando de Búsqueda de Contenido
-    # El sistema buscará metraje de 'lujo' y 'motivación'
-    query = "luxury motivation"
-    url = f"https://api.pexels.com/videos/search?query={query}&per_page=1"
+    # 2. Búsqueda de metraje de alto valor
+    print("Conectando con servidores de Pexels para obtener clips de lujo...")
     headers = {"Authorization": api_key}
+    params = {"query": "luxury cars", "per_page": 1}
     
-    response = requests.get(url, headers=headers)
+    res = requests.get("https://api.pexels.com/videos/search", headers=headers, params=params)
     
-    if response.status_code == 200:
-        data = response.json()
-        print(f"ÉXITO: Se ha localizado material para el Video #1.")
-        print(f"URL de Producción: {data['videos'][0]['url']}")
+    if res.status_code == 200:
+        video_url = res.json()['videos'][0]['url']
+        print(f"ÉXITO: Material localizado. Iniciando descarga: {video_url}")
     else:
-        print(f"FALLO DE CONEXIÓN: Código {response.status_code}")
+        print(f"ERROR DE CONEXIÓN: {res.status_code}")
 
-# Ejecución Directa Segura
-fabrica_neurocapital_activa()
+# Inicio directo
+ejecutar_produccion_real()
