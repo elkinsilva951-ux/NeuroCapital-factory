@@ -8,24 +8,27 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout del codigo
+      - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Configurar Python 3.9
+      - name: Set up Python 3.9
         uses: actions/setup-python@v4
         with:
           python-version: '3.9'
 
-      - name: Instalar y Desbloquear Motor de Video
+      - name: Install System Dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y imagemagick
-          # Esta linea es la llave maestra que elimina el bloqueo de seguridad:
+          sudo apt-get install -y imagemagick fonts-liberation
+          # Desbloqueo total de seguridad para edicion de video:
           sudo sed -i 's/domain="path" rights="none" pattern="@\"/domain="path" rights="read|write" pattern="@\"/g' /etc/ImageMagick-6/policy.xml
+
+      - name: Install Python Packages
+        run: |
           pip install requests moviepy imageio-ffmpeg
           python -c "import imageio; imageio.plugins.ffmpeg.download()"
 
-      - name: Ejecutar Fabrica
+      - name: Run Factory
         env:
           PEXELS_API_KEY: ${{ secrets.PEXELS_API_KEY }}
           MAKE_WEBHOOK_URL: ${{ secrets.MAKE_WEBHOOK_URL }}
