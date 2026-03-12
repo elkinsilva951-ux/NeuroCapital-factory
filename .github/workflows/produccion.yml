@@ -19,14 +19,14 @@ jobs:
       - name: Install System Dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y imagemagick
-          # Linea vital para permitir que la IA escriba texto en los videos:
+          sudo apt-get install -y imagemagick fonts-liberation
           sudo sed -i 's/domain="path" rights="none" pattern="@\"/domain="path" rights="read|write" pattern="@\"/g' /etc/ImageMagick-6/policy.xml
 
       - name: Install Python Packages
         run: |
-          pip install requests moviepy imageio-ffmpeg
-          python -c "import imageio; imageio.plugins.ffmpeg.download()"
+          pip install --upgrade pip
+          pip install requests==2.31.0 moviepy==1.0.3 imageio-ffmpeg==0.4.9
+          # No usamos la descarga manual de ffmpeg para ahorrar tiempo y evitar errores
 
       - name: Run Factory
         env:
