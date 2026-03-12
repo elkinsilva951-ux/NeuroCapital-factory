@@ -16,10 +16,12 @@ jobs:
         with:
           python-version: '3.9'
 
-      - name: Instalar Dependencias del Sistema y Video
+      - name: Instalar y Desbloquear Motor de Video
         run: |
           sudo apt-get update
           sudo apt-get install -y imagemagick
+          # Esta linea es la llave maestra que elimina el bloqueo de seguridad:
+          sudo sed -i 's/domain="path" rights="none" pattern="@\"/domain="path" rights="read|write" pattern="@\"/g' /etc/ImageMagick-6/policy.xml
           pip install requests moviepy imageio-ffmpeg
           python -c "import imageio; imageio.plugins.ffmpeg.download()"
 
